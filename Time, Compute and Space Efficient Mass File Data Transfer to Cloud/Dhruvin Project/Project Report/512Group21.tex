@@ -1,0 +1,120 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\ifCLASSINFOpdf
+	\usepackage[pdftex]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+	\usepackage[dvips]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.eps}
+\fi
+
+\usepackage[cmex10]{amsmath}
+\usepackage[tight,footnotesize]{subfigure}
+\usepackage{xcolor}
+\usepackage[lined,ruled]{algorithm2e}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+\usepackage{listings}
+
+\usepackage[]{algorithm2e}
+
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+
+\makeatletter
+\pgfdeclareshape{datastore}{
+\inheritsavedanchors[from=rectangle]
+\inheritanchorborder[from=rectangle]
+\inheritanchor[from=rectangle]{center}
+\inheritanchor[from=rectangle]{base}
+\inheritanchor[from=rectangle]{north}
+\inheritanchor[from=rectangle]{north east}
+\inheritanchor[from=rectangle]{east}
+\inheritanchor[from=rectangle]{south east}
+\inheritanchor[from=rectangle]{south}
+\inheritanchor[from=rectangle]{south west}
+\inheritanchor[from=rectangle]{west}
+\inheritanchor[from=rectangle]{north west}
+\backgroundpath{
+    %  store lower right in xa/ya and upper right in xb/yb
+\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+\northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+ }
+}
+\makeatother
+
+\newcommand{\riham}[1]{{\color{red}{#1}}}
+\newcommand{\james}[1]{{\color{blue}{#1}}}
+
+
+\begin{document}
+
+\title{Bi-Directional A*}
+\author{
+\IEEEauthorblockN{Group 21}
+\IEEEauthorblockA{Haoyang Zhang\\ Dhruvin Patel\\
+Deep Pandya}
+%\and
+%\IEEEauthorblockN{Alan Turing}
+%\IEEEauthorblockA{Rutgers University\\
+% Piscataway, NJ, USA\\
+% Email: alan1936@cs.rutgers.edu}
+%\and
+%%\IEEEauthorblockN{Third group member}
+%\IEEEauthorblockA{Rutgers University\\
+%\Piscataway, NJ, USA\\
+%Email: Third_group_member@scarletmail.rutgers.edu}
+}
+
+\maketitle
+\begin{abstract}
+\textnormal{This project looks at the implementation of bidirectional A*. The project will visualize Bidirectional A* and the advantages of it over the unidirectional A*. The algorithm will be visualized in a clear manner which will be easy to understand. The Bi-Directional A* algorithm is relatively lesser known as compared to other search algorithms such as unidirectional A*, Dijkstra's, Iterative Deepening A* algorithms.}
+\end{abstract}
+%\onecolumn \maketitle \normalsize \vfill
+
+\IEEEpeerreviewmaketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Project Description}\label{sec:1. Project Description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+{This project aims at the visualization of the Bi-Directional A* Algorithm. This is to be achieved through an executable file in which the user will draw a graph arbitrarily using nodes and edges. The graph will contain a start node ``S'' and a goal node ``G''. For each node, the user will input the heuristic value for that particular node to ``S'' and ``G''. Similarly, for each edge the user will input the weight for the respective edge. Implementation of this algorithm lets you know the shortest path from start node to the goal node. This idea can be extended for finding shortest paths on maps, the closeness of the relationship between two persons on social networks, etc. The project is also useful to show why in some cases the Bi-Directional A* Algorithm will fail to return shortest path between ``S'' and ``G''. 
+The successful completion of project is feasible in the given time frame as proposed along with a possibility of the addition of another bi-directional search in the form of Bi-Directional Dijkstra's algorithm as well as unidirectional A* and Dijkstra's algorithm. The Bi-Directional A* algorithm is relatively lesser known as compared to other search algorithms such as unidirectional A*, Dijkstra's, Iterative Deepening A* algorithms. The roadblocks for this project are:
+\begin{itemize}{ 
+\item
+{Modification of heuristics for both paths from ``S'' to ``G'' and ``G'' to ``S'' so that we can meet our ``goal'' which is not the goal node ``G'' but the intersection of both paths.}
+\item{A* is a unidirectional search, whereas the Bi-Directional A* will simultaneously perform two searches, i.e. from ``S'' to ``G'' and ``G'' to ``S''. in some cases , it is possible that these two searches miss each other completely and fail to meet somewhere in between ``S'' and ``G'' resulting in two paths leading to twice as consumption of time and space.}
+\item{Checking if the path returned if optimal or not. If it is not optimal, then can there be an algorithm to modify the path in order to make it optimal.}
+\item{Design of an appropriate UI to interact with the user.}
+
+\end{itemsize}
+Improving the Bi-Directional A* Algorithm to return an optimal path, dealing with the roadblocks for the algorithm and learning to program the GUI are some of the major challenges for this project. The time allocated to learn GUI programming would help gain experience for the team on GUI programming to make a better interface for the user. Utilizing the time for brainstorming another algorithm to implement may also be useful to come up with an optimized version of Bi-Directional A* that would return an optimal path.
+}
+
+
+%\subsection{Stage1 - The Requirement Gathering Stage. } \label{sec:1	Requirement Gathering Stage. } 
+%\input{Stage1.tex}
+\subsection{Stage1 - The Requirement Gathering Stage. }\label{sec:1 Requirement Gathering Stage. }
+%%%%%%%
+\input{Stage1.tex}
+\subsection{Stage2 - The Design stage. }
+\input{Stage2.tex}
+\subsection{Stage3- The Implementation Stage}
+\input{Stage3.tex}
+\subsection{Stage 4- User Interface}
+\input{Stage4.tex}
+\end{document}
+
+

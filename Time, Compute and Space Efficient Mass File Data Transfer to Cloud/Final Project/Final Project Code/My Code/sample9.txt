@@ -1,0 +1,66 @@
+Analyzing an algorithm has come to mean predicting the resources that the algorithm
+requires. Occasionally, resources such as memory, communication bandwidth,
+or computer hardware are of primary concern, but most often it is computational
+time that we want to measure. Generally, by analyzing several candidate
+algorithms for a problem, a most efficient one can be easily identified. Such analysis
+may indicate more than one viable candidate, but several inferior algorithms
+are usually discarded in the process.
+Before we can analyze an algorithm, we must have a model of the implementation
+technology that will be used, including a model for the resources of that
+technology and their costs. For most of this book, we shall assume a generic oneprocessor,
+random-access machine (RAM) model of computation as our implementation
+technology and understand that our algorithms will be implemented as
+computer programs. In the RAM model, instructions are executed one after another,
+with no concurrent operations. In later chapters, however, we shall have
+occasion to investigate models for digital hardware.
+Strictly speaking, one should precisely define the instructions of the RAMmodel
+and their costs. To do so, however, would be tedious and would yield little insight
+into algorithm design and analysis. Yet we must be careful not to abuse the RAM
+model. For example, what if a RAM had an instruction that sorts? Then we could
+sort in just one instruction. Such a RAM would be unrealistic, since real computers
+do not have such instructions. Our guide, therefore, is how real computers are
+designed. The RAM model contains instructions commonly found in real computers:
+arithmetic (add, subtract, multiply, divide, remainder, floor, ceiling), data
+movement (load, store, copy), and control (conditional and unconditional branch,
+subroutine call and return). Each such instruction takes a constant amount of time.
+The data types in the RAM model are integer and floating point. Although we
+typically do not concern ourselves with precision in this book, in some applications
+precision is crucial. We also assume a limit on the size of each word of data. For
+example, when working with inputs of size n, we typically assume that integers are
+represented by c lg n bits for some constant c 1. We require c 1 so that each
+word can hold the value of n, enabling us to index the individual input elements,
+and we restrict c to be a constant so that the word size does not grow arbitrarily. (If
+the word size could grow arbitrarily, we could store huge amounts of data in one
+word and operate on it all in constant timeclearly an unrealistic scenario.)
+Real computers contain instructions not listed above, and such instructions represent
+a gray area in the RAM model. For example, is exponentiation a constanttime
+instruction? In the general case, no; it takes several instructions to compute x y
+when x and y are real numbers. In restricted situations, however, exponentiation is
+a constant-time operation. Many computers have a shift left instruction, which
+in constant time shifts the bits of an integer by k positions to the left. In most
+computers, shifting the bits of an integer by one position to the left is equivalent to
+multiplication by 2. Shifting the bits by k positions to the left is equivalent to multiplication
+by 2k . Therefore, such computers can compute 2k in one constant-time
+instruction by shifting the integer 1 by k positions to the left, as long as k is no more
+than the number of bits in a computer word. We will endeavor to avoid such gray
+areas in the RAM model, but we will treat computation of 2k as a constant-time
+operation when k is a small enough positive integer.
+In the RAM model, we do not attempt to model the memory hierarchy that is
+common in contemporary computers. That is, we do not model caches or virtual
+memory (which is most often implemented with demand paging). Several computational
+models attempt to account for memory-hierarchy effects, which are sometimes
+significant in real programs on real machines. A handful of problems in this
+book examine memory-hierarchy effects, but for the most part, the analyses in this
+book will not consider them. Models that include the memory hierarchy are quite a
+bit more complex than the RAM model, so that they can be difficult to work with.
+Moreover, RAM-model analyses are usually excellent predictors of performance
+on actual machines.
+Analyzing even a simple algorithm in the RAM model can be a challenge. The
+mathematical tools required may include combinatorics, probability theory, alge
+braic dexterity, and the ability to identify the most significant terms in a formula.
+Because the behavior of an algorithm may be different for each possible input, we
+need a means for summarizing that behavior in simple, easily understood formulas.
+Even though we typically select only one machine model to analyze a given algorithm,
+we still face many choices in deciding how to express our analysis. We
+would like a way that is simple to write and manipulate, shows the important characteristics
+of an algorithms resource requirements, and suppresses tedious details.

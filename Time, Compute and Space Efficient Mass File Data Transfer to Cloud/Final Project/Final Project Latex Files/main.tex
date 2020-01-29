@@ -1,0 +1,123 @@
+\documentclass[10pt,conference]{IEEEtran}
+
+\ifCLASSINFOpdf
+	\usepackage[pdftex]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.pdf,.jpeg,.png}
+\else
+	\usepackage[dvips]{graphicx}
+	%\graphicspath{{./figs/}}
+	\DeclareGraphicsExtensions{.eps}
+\fi
+
+\usepackage[cmex10]{amsmath}
+\usepackage[tight,footnotesize]{subfigure}
+\usepackage{xcolor}
+\usepackage[lined,ruled]{algorithm2e}
+
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usetikzlibrary{arrows}
+
+\usepackage[]{algorithm2e}
+
+\newtheorem{property}{Property}
+\newtheorem{proposition}{Proposition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{conjecture}{Conjecture}
+\newtheorem{question}{Question}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+
+\makeatletter
+\pgfdeclareshape{datastore}{
+\inheritsavedanchors[from=rectangle]
+\inheritanchorborder[from=rectangle]
+\inheritanchor[from=rectangle]{center}
+\inheritanchor[from=rectangle]{base}
+\inheritanchor[from=rectangle]{north}
+\inheritanchor[from=rectangle]{north east}
+\inheritanchor[from=rectangle]{east}
+\inheritanchor[from=rectangle]{south east}
+\inheritanchor[from=rectangle]{south}
+\inheritanchor[from=rectangle]{south west}
+\inheritanchor[from=rectangle]{west}
+\inheritanchor[from=rectangle]{north west}
+\backgroundpath{
+    %  store lower right in xa/ya and upper right in xb/yb
+\southwest \pgf@xa=\pgf@x \pgf@ya=\pgf@y
+\northeast \pgf@xb=\pgf@x \pgf@yb=\pgf@y
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@ya}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@ya}}
+\pgfpathmoveto{\pgfpoint{\pgf@xa}{\pgf@yb}}
+\pgfpathlineto{\pgfpoint{\pgf@xb}{\pgf@yb}}
+ }
+}
+\makeatother
+
+\newcommand{\riham}[1]{{\color{red}{#1}}}
+\newcommand{\james}[1]{{\color{blue}{#1}}}
+
+
+\begin{document}
+
+\title{Exploring the reusability of the same Huffman coding tree for compressing similar data files}
+\author{
+\IEEEauthorblockN{Praneeth Chandra Thota}
+\IEEEauthorblockA{Rutgers University\\
+ Piscataway, NJ, USA\\ 
+Email: pt357@rutgers.edu}
+\and
+\IEEEauthorblockN{Naveen Narayanan Meyyappan}
+\IEEEauthorblockA{Rutgers University\\
+ Piscataway, NJ, USA\\ 
+ Email: nm941@rutgers.edu}
+}
+
+\maketitle
+\begin{abstract}
+\textnormal{
+Most of the applications generate massive volumes of data and we need lot of memory to save the data. Data compression reduces the amount of data that needs to be stored and there by reduces storage costs. This project aims toward the implementation of Huffman encoding algorithm to a data set and reusing the same Huffman coding tree for the compression of similar files. Thereby we can improve the speed of compression, reduce the complexity of the algorithm and reduce the header length that is need to transmit the Huffman coding tree. In this project we will compress similar files using the conventional Huffman source coding algorithm and also using the new approach. We will then compare various charactersitics such as the compression ratios, time taken to compress and space required for compression. Eventhough this approach may not be optimal, we will still be able to acheive desirable compression at a faster rate. This new approach will be useful in cloud and edge computing applications where we have to compress the files quickly. We will tabulate the results and plot the tradeoff between speed and compression ratio for the new approach. 
+}
+\end{abstract}
+%\onecolumn \maketitle \normalsize \vfill
+
+\IEEEpeerreviewmaketitle
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Project Description}\label{sec:1. Project Description}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\textnormal{
+Data compression is a reduction in the number of bits needed to represent data. Compressing data can save storage capacity, speed up file transfer, and decrease costs for storage hardware and network bandwidth. Compression is performed by a program that uses a formula or algorithm to determine how to shrink the size of the data. For data transmission, the data is compressed at the source using an algorithm and is then transmitted via the channel. The same algorithm is used to decompress the data at the receiver and the original file is retrieved.
+\begin{figure}[!h]
+    \centering
+    \includegraphics[width=90mm,scale=0.5]{Compressing Data.png}
+    \caption{Data Compression}
+\end{figure}
+\linebreak
+Data compression can be performed on the data content or on the entire transmission unit, including header data. When information is sent or received via the internet, larger files, either singly or with others as part of an archive file, may be transmitted in a ZIP, GZIP or other compressed format. Compressing data can be a lossless or lossy process. Lossless compression enables the restoration of a file to its original state, without the loss of a single bit of data, when the file is uncompressed. Lossless compression is the typical approach with executables, as well as text and spreadsheet files, where the loss of words or numbers would change the information. Some examples of lossless source coding algorithms are Huffman coding, Arithmetic coding and Lempel Ziv coding. Lossy compression algorithms such as Transform coding, Discrete Cosine Transform, Discrete Wavelet Transform and fractal compression algorithms permanently eliminates bits of data that are redundant, unimportant or imperceptible. Lossy compression is useful with graphics, audio, video and images, where the removal of some data bits has little or no discernible effect on the representation of the content. In this project we will explore the most commonly used lossless Huffman coding algorithm for compressing data files of similar type. Huffman coding is a fixed-to-variable length coding where in the fixed length blocks of the source output are mapped to variable length binary blocks. The main idea behind this coding is to map the more frequently occurring fixed length sequences to shorter binary sequences and the less frequently occurring sequences to longer binary sequences, thus achieving good compression ratios. In variable length coding, synchronization is a problem. This means that there should be only one way to parse the binary received sequence into code words.In other words, it is called the prefix free property: no code word can be a prefix of another code word. In this project, we will implement the Huffman encoding algorithm on a given data set and the generated encoded tree will be reused to compress other files of similar type. By this method we aim to reduce the length of the header for the data file and also the time taken to compress the file. Although the compression may not be optimal in this but we will be able to save time in compressing the data. If we are able to achieve the desirable level of compression, then this method of compression can used in applications where we are in need of the processing data at a faster rate. We will be able to save considerable amount of time and space as we will have to create the Huffman coding tree only once and we will not be required to maintain a priority queue for each data file. Moreover, we will also be able to reduce th esize of the  header file as we will not be required to transmit the Huffman coding tree which was used to compress the data. This will help us achieve more compression and better usage of the available bandwidth. In terms of running time, the original Huffman coding algorithm will have to read the data twice, once to determine the frequency/probability and the second time to encode the data. In our case, we will be reading the data only once and that is to encode the data. The other advantage of this idea is that we dont have to generate the priority queue for each data file, this will save computation time and power. Overall, this approach may not provide optimal compression ratio but it will require less computational power,space and time than the original  Hiffman coding algorithm. We will impement both the algorithms on various data sets and identify the tradeoff between the compression ratio and the time taken to compress the data.  
+}
+
+\section{Design }\label{sec:2 Design.}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\input{Design.tex}
+\section{Implementation}\label{sec:3 Implementation }
+%%%%%%%
+\input{Implementation.tex}
+\section{Demo and Sample Findings}\label{sec:4 Demo and Sample Findings }
+%%%%%%%
+\input{DemoandSampleFindings.tex}
+\section{Challenges}\label{sec:5 Challenges. }
+%%%%%%%
+\input{Challenges.tex}
+\section{Future Extensions}\label{sec:6 Future Extensions. }
+%%%%%%%
+\input{Future Extensions.tex}
+\section{References}\label{sec:7 References. }
+%%%%%%%
+\input{References.tex}
+
+\end{document}
+
+
+

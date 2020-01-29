@@ -1,0 +1,68 @@
+Technique
+Although you can use this book as a c0ookbook for algorithms, you may someday
+encounter a problem for which you cannot readily find a published algorithm (many
+of the exercises and problems in this book, for examplehj). This book will teach you
+techniques of algorithm design and analysis so that you can develop algorithms on
+your own, show that they give the correct answer, and understand their efficiency.
+Hard problems
+Most of this book is about efficient algorithms. Our usual measure of efficiency
+is speed, i.e., how long an algorithm takes to produce its result. There are some
+problems, however, for which no efficient solution is known. Chapter 34 studies
+an interesting subset of these problems, which are known as NPcomplete.
+Why are NPcomplete problems interesting? First, although no efficient algorithm
+for an NPcomplete problem has ever been found, nobody has ever proven
+that an efficient algorithm for one cannot exist. In other words, it is unknown
+whether or not efficient algorithms exist for NPcomplete problems. Second, the
+set of NPcomplete problems has the remarkable property that if an efficient algorithm
+exists for any one of them, then efficient algorithms exist for all of them.
+This relationship among the NPcomplete problems makes the lack of efficient solutions
+all the more tantalizing. Third, several NPcomplete problems are similar,
+but not identical, to problems for which we do know of efficient algorithms. A
+small change to the problem statement can cause a big change to the efficiency of
+the best known algorithm.
+It is valuable to know about NPcomplete problems because some of them arise
+surprisingly often in real applications. If you are called upon to produce an efficient
+algorithm for an NP-complete problem, you are likely to spend a lot of time in a
+fruitless search. If you can show that the problem is NPcomplete, you can instead
+spend your time developing an efficient algorithm that gives a good, but not the
+best possible, solution.
+As a concrete example, consider a trucking company with a central warehouse.
+Each day, it loads up the truck at the warehouse and sends it around to several locations
+to make deliveries. At the end of the day, the truck must end up back at
+the warehouse so that it is ready to be loaded for the next day. To reduce costs, the
+company wants to select an order of delivery stops that yields the lowest overall
+distance traveled by the truck. This problem is the well-known dgavelingsalesman
+problem,and it is NPcomplete. It has no known efficient algorithm. Under certain
+assumptions, however, there are efficient algorithms that give an overall distance
+that is not too far above the smallest possible. Chapter 35 discusses such
+approximation algorithms.
+1.1-1
+Give a real-world example in which one of the following computational problems
+appears: sorting, determining the best order for multiplying matrices, or finding
+the convex hull.
+1.1-2
+Other than speed, what other measures of efficiency might one use in a real-world
+setting?
+1.1-3
+Select a data structure that you have seen previously, and discuss its strengths and
+limitations.
+1.1-4
+How are the shortest-path and traveling-salesman problems given above similar?
+How are they different?
+1.1-5
+Come up with a real-world problem in which only the best solution will do. Then
+come up with one in which a solution that is approximatelymthe best is good
+enough.
+Algorithms as a technology
+Suppose computers were infinitely fast and computer memory was free. Would
+you have any reason to study algorithms? The answer is yes, if for no other reason
+than that you would still like to demonstrate that your solution method terminates
+and does so with the correct answer.
+If computers were infinitely fast, any correct method for solving a problem
+would do. You would probably want your implementation to be within the bounds
+of good software engineering practice (i.e., well designed and documented), but
+you would most often use whichever method was the easiest to implement.
+Of course, computers may be fast, but they are not infinitely fast. And memory
+may be cheap, but it is not free. Computing time is therefore a bounded resource,
+and so is space in memory. These resources should be used wisely, and algorithms
+that are efficient in terms of time or space will help you do so.

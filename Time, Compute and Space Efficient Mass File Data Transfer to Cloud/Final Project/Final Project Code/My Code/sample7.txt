@@ -1,0 +1,56 @@
+The answer is yes. Although there are some applications that do not explicitly
+require algorithmic content at the application level (e.g., some simple web-based
+applications), most also require a degree of algorithmic content on their own. For
+example, consider a web-based service that determines how to travel from one
+location to another. (Several such services existed at the time of this writing.) Its
+implementation would rely on fast hardware, a graphical user interface, wide-area
+networking, and also possibly on object orientation. However, it would also require
+algorithms for certain operations, such as finding routes (probably using a shortestpath
+algorithm), rendering maps, and interpolating addresses.
+Moreover, even an application that does not require algorithmic content at the
+application level relies heavily upon algorithms. Does the application rely on fast
+hardware? The hardware design used algorithms. Does the application rely on
+graphical user interfaces? The design of any GUI relies on algorithms. Does the
+application rely on networking? Routing in networks relies heavily on algorithms.
+Was the application written in a language other than machine code? Then it was
+processed by a compiler, interpreter, or assembler, all of which make extensive use
+of algorithms. Algorithms are at the core of most technologies used in contemporary
+computers.
+Furthermore, with the ever-increasing capacities of computers, we use them to
+solve larger problems than ever before. As we saw in the above comparison between
+insertion sort and merge sort, it is at larger problem sizes that the differences
+in efficiencies between algorithms become particularly prominent.
+Having a solid base of algorithmic knowledge and technique is one characteristic
+that separates the truly skilled programmers from the novices. With modern computing
+technology, you can accomplish some tasks without knowing much about
+algorithms, but with a good background in algorithms, you can do much, much
+more.
+Exercises
+1.2-1
+Give an example of an application that requires algorithmic content at the application
+level, and discuss the function of the algorithms involved.
+1.2-2
+Suppose we are comparing implementations of insertion sort and merge sort on the
+same machine. For inputs of size n, insertion sort runs in 8n2 steps, while merge
+sort runs in 64n lg n steps. For which values of n does insertion sort beat merge
+sort?
+1.2-3
+What is the smallest value of n such that an algorithm whose running time is 100n2
+runs faster than an algorithm whose running time is 2n on the same machine?
+1-1 Comparison of running times
+For each function f (n) and time t in the following table, determine the largest size
+n of a problem that can be solved in time t, assuming that the algorithm to solve
+the problem takes f (n) microseconds.
+Chapter notes
+There are many excellent texts on the general topic of algorithms, including those
+by Aho, Hopcroft, and Ullman [5, 6], Baase and Van Gelder [26], Brassard
+and Bratley [46, 47], Goodrich and Tamassia [128], Horowitz, Sahni, and Rajasekaran
+[158], Kingston [179], Knuth [182, 183, 185], Kozen [193], Manber
+[210], Mehlhorn [217, 218, 219], Purdom and Brown [252], Reingold, Nievergelt,
+and Deo [257], Sedgewick [269], Skiena [280], and Wilf [315]. Some of the more
+practical aspects of algorithm design are discussed by Bentley [39, 40] and Gonnet
+[126]. Surveys of the field of algorithms can also be found in the Handbook of
+Theoretical Computer Science, Volume A [302] and the CRC Handbook on Algorithms
+and Theory of Computation [24]. Overviews of the algorithms used in
+computational biology can be found in textbooks by Gusfield [136], Pevzner [240],
+Setubal and Meidanis [272], and Waterman [309].

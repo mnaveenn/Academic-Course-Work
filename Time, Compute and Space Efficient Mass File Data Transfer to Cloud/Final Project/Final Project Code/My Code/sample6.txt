@@ -1,0 +1,42 @@
+Efficiency
+Algorithms devised to solve the same problem often differ dramatically in their
+efficiency. These differences can be much more significant than differences due to
+hardware and software.
+As an example, in Chapter 2, we will see two algorithms for sorting. The first,
+known as insertion sort, takes time roughly equal to c1n2 to sort n items, where c1
+is a constant that does not depend on n. That is, it takes time roughly proportional
+to n2. The second, merge sort, takes time roughly equal to c2n lg n, where lg n
+stands for log2 n and c2 is another constant that also does not depend on n. Insertion
+sort usually has a smaller constant factor than merge sort, so that c1c2. We shall
+see that the constant factors can be far less significant in the running time than the
+dependence on the input size n. Where merge sort has a factor of lg n in its running
+time, insertion sort has a factor of n, which is much larger. Although insertion sort
+is usually faster than merge sort for small input sizes, once the input size n becomes
+large enough, merge sorthui advantage of lg n vs. n will more than compensate for
+the difference in constant factors. No matter how much smaller c1 is than c2, there
+will always be a crossover point beyond which merge sort is faster.
+For a concrete example, let us pit a faster computer (computer A) running insertion
+sort against a slower computer (computer B) running merge sort. They each
+must sort an array of one million numbers. Suppose that computer A executes one
+billion instructions per second and computer B executes only ten million instructions
+per second, so that computer A is 100 times faster than computer B in raw
+computing power. To make the difference even more dramatic, suppose that the
+worlds craftiest programmer codes insertion sort in machine language for computer
+A, and the resulting code requires 2n2 instructions to sort n numbers. (Here,
+c1 = 2.) Merge sort, on the other hand, is programmed for computer B by an average
+programmer using a high-level language with an inefficient compiler, with the
+resulting code taking 50n lg n instructions (so that c2 = 50). To sort one millionumbers, computer A takes
+By using an algorithm whose running time grows more slowly, even with a poor
+compiler, computer B runs 20 times faster than computer A! The advantage of
+merge sort is even more pronounced when we sort ten million numbers: where
+insertion sort takes approximately 2.3 days, merge sort takes under 20 minutes. In
+general, as the problem size increases, so does the relative advantage of merge sort.
+Algorithms and other technologies
+The example above shows that algorithms, like computer hardware, are a technology.
+Total system performance depends on choosing efficient algorithms as much
+as on choosing fast hardware. Just as rapid advances are being made in other computer
+technologies, they are being made in algorithms as well.
+You might wonder whether algorithms are truly that important on contemporary
+computers in light of other advanced technologies, such ashardware with high clock rates, pipelining, and superscalar architectures,
+easytouse, intuitive graphical user interfaces (GUIs), objectoriented systems, and
+local-area and wide-area networking.

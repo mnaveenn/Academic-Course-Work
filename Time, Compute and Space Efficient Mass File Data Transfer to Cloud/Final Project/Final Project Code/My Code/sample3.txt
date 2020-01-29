@@ -1,0 +1,56 @@
+Informally, an algorithm is any well-defined computational procedure that takes
+some value, or set of values, as input and produces some value, or set of values, as
+output. An algorithm is thus a sequence of computational steps that transform the
+input into the output.
+We can also view an algorithm as a tool for solving a well-specified computational
+problem. The statement of the problem specifies in general terms the desired
+input/output relationship. The algorithm describes a specific computational procedure
+for achieving that input/output relationship.
+For example, one might need to sort a sequence of numbers into nondecreasing
+order. This problem arises frequently in practice and provides fertile ground for
+introducing many standard design techniques and analysis tools. Here is how we
+formally define the sorting problem:
+For example, given the input sequence 1, 41, 59, 26, 41, 58, a sorting algorithm
+returns as output the sequence 26, 31, 41, 41, 58, 59. Such an input sequence is
+called an instance of the sorting problem. In general, an instance of a problem
+consists of the input (satisfying whatever constraints are imposed in the problem
+statement) needed to compute a solution to the problem.
+Sorting is a fundamental operation in computer science (many programs use it
+as an intermediate step), and as a result a large number of good sorting algorithms
+have been developed. Which algorithm is best for a given application depends
+onamong other factorsthe number of items to be sorted, the extent to which
+the items are already somewhat sorted, possible restrictions on the item values, and
+the kind of storage device to be used: main memory, disks, or tapes.
+An algorithm is said to be correct if, for every input instance, it halts with the
+correct output. We say that a correct algorithm solves the given computational
+problem. An incorrect algorithm might not halt at all on some input instances, or it
+might halt with an answer other than the desired one. Contrary to what one might
+expect, incorrect algorithms can sometimes be useful, if their error rate can be
+controlled. We shall see an example of this in Chapter 31 when we study algorithms
+for finding large prime numbers. Ordinarily, however, we shall be concerned only
+with correct algorithms.
+An algorithm can be specified in English, as a computer program, or even as
+a hardware design. The only requirement is that the specification must provide a
+precise description of the computational procedure to be followed.
+What kinds of problems are solved by algorithms?
+Sorting is by no means the only computational problem for which algorithms have
+been developed. (You probably suspected as much when you saw the size of this
+book.) Practical applications of algorithms are ubiquitous and include the following
+examples:
+The Human Genome Project has the goals of identifying all the 100,000 genes
+in human DNA, determining the sequences of the 3 billion chemical base pairs
+that make up human DNA, storing this information in databases, and developing
+tools for data analysis. Each of these steps requires sophisticated algorithms.
+While the solutions to the various problems involved are beyond the
+scope of this book, ideas from many of the chapters in this book are used in the
+solution of these biological problems, thereby enabling scientists to accomplish
+tasks while using resources efficiently. The savings are in time, both human and
+machine, and in money, as more information can be extracted from laboratory
+techniques.
+The Internet enables people all around the world to quickly access and retrieve
+large amounts of information. In order to do so, clever algorithms are employed
+to manage and manipulate this large volume of data. Examples of problems
+which must be solved include finding good routes on which the data will travel
+(techniques for solving such problems appear in Chapter 24), and using a search
+engine to quickly find pages on which particular information resides (related
+techniques are in Chapters 11 and 32).
