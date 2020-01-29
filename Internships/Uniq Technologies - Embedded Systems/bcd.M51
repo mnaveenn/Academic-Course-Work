@@ -1,0 +1,105 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        12/16/2015  17:37:53  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE bcd.obj TO bcd
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  bcd.obj (BCD)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
+
+
+LINK MAP OF MODULE:  bcd (BCD)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0004H     UNIT         _DATA_GROUP_
+            IDATA   000CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     003DH     UNIT         ?PR?MAIN?BCD
+            CODE    083DH     001AH     UNIT         ?PR?DELAY?BCD
+            CODE    0857H     0016H     UNIT         ?C?LIB_CODE
+            CODE    086DH     000CH     UNIT         ?C_C51STARTUP
+
+
+
+OVERLAY MAP OF MODULE:   bcd (BCD)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?BCD
+
+?PR?MAIN?BCD                   0008H    0004H
+  +--> ?PR?DELAY?BCD
+
+
+
+SYMBOL TABLE OF MODULE:  bcd (BCD)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        BCD
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:083DH         PUBLIC        delay
+BL51 BANKED LINKER/LOCATER V5.03                                                      12/16/2015  17:37:53  PAGE 2
+
+
+  C:0800H         PUBLIC        main
+  -------         PROC          MAIN
+  -------         DO            
+  D:0008H         SYMBOL        i
+  D:000AH         SYMBOL        j
+  -------         ENDDO         
+  C:0800H         LINE#         5
+  C:0800H         LINE#         6
+  C:0800H         LINE#         8
+  C:0805H         LINE#         9
+  C:0805H         LINE#         10
+  C:0808H         LINE#         11
+  C:080BH         LINE#         12
+  C:0810H         LINE#         13
+  C:0810H         LINE#         14
+  C:0813H         LINE#         15
+  C:0816H         LINE#         16
+  C:0829H         LINE#         17
+  C:083CH         LINE#         18
+  -------         ENDPROC       MAIN
+  -------         PROC          DELAY
+  -------         DO            
+  D:0082H         SYMBOL        k
+  -------         ENDDO         
+  C:083DH         LINE#         19
+  C:083DH         LINE#         20
+  C:083DH         LINE#         22
+  C:0856H         LINE#         23
+  -------         ENDPROC       DELAY
+  -------         ENDMOD        BCD
+
+  -------         MODULE        ?C?SLCMP
+  C:0857H         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 005BH BYTE ( 4%) *
+******************************************************************************
+
+Program Size: data=13.0 xdata=0 code=124
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)

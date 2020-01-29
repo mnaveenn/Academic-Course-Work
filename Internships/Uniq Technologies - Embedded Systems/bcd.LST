@@ -1,0 +1,46 @@
+C51 COMPILER V7.06   BCD                                                                   12/16/2015 17:37:53 PAGE 1   
+
+
+C51 COMPILER V7.06, COMPILATION OF MODULE BCD
+OBJECT MODULE PLACED IN bcd.OBJ
+COMPILER INVOKED BY: C:\Keil\C51\BIN\C51.EXE bcd.c BROWSE DEBUG OBJECTEXTEND
+
+stmt level    source
+
+   1          #include<reg51.h>
+   2          #define led1 P2
+   3          #define led2 P3
+   4          void delay();
+   5          void main()
+   6          {
+   7   1      int i,j;
+   8   1      for(i=0;i<=9;i++)
+   9   1      {
+  10   2      led1=i;
+  11   2      delay();
+  12   2      for(j=0;j<=9;j++)
+  13   2      {
+  14   3      led2=j;
+  15   3      delay();
+  16   3      }
+  17   2      }
+  18   1      }
+  19          void delay()
+  20          {
+  21   1      unsigned k;
+  22   1      for(k=0;k<=35000;k++);
+  23   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =     87    ----
+   CONSTANT SIZE    =   ----    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =   ----       4
+   IDATA SIZE       =   ----    ----
+   BIT SIZE         =   ----    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

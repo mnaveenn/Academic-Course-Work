@@ -1,0 +1,113 @@
+BL51 BANKED LINKER/LOCATER V5.03                                                        12/16/2015  16:50:42  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V5.03, INVOKED BY:
+C:\KEIL\C51\BIN\BL51.EXE segment.obj TO segment
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  segment.obj (SEGMENT)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C?SLCMP)
+  C:\KEIL\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  segment (SEGMENT)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     000BH     UNIT         ?DT?SEGMENT
+            DATA    0013H     0004H     UNIT         _DATA_GROUP_
+            IDATA   0017H     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     008CH     UNIT         ?C_C51STARTUP
+            CODE    088CH     004EH     UNIT         ?PR?MAIN?SEGMENT
+            CODE    08DAH     001AH     UNIT         ?PR?DELAY?SEGMENT
+            CODE    08F4H     0016H     UNIT         ?C?LIB_CODE
+            CODE    090AH     000EH     UNIT         ?C_INITSEG
+
+
+
+OVERLAY MAP OF MODULE:   segment (SEGMENT)
+
+
+SEGMENT                          DATA_GROUP 
+  +--> CALLED SEGMENT          START    LENGTH
+----------------------------------------------
+?C_C51STARTUP                  -----    -----
+  +--> ?PR?MAIN?SEGMENT
+  +--> ?C_INITSEG
+
+?PR?MAIN?SEGMENT               0013H    0004H
+  +--> ?PR?DELAY?SEGMENT
+
+
+
+SYMBOL TABLE OF MODULE:  segment (SEGMENT)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        SEGMENT
+BL51 BANKED LINKER/LOCATER V5.03                                                      12/16/2015  16:50:42  PAGE 2
+
+
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:08DAH         PUBLIC        delay
+  C:088CH         PUBLIC        main
+  D:0008H         PUBLIC        a
+  -------         PROC          MAIN
+  -------         DO            
+  D:0013H         SYMBOL        j
+  D:0015H         SYMBOL        k
+  -------         ENDDO         
+  C:088CH         LINE#         6
+  C:088CH         LINE#         7
+  C:088CH         LINE#         9
+  C:088FH         LINE#         10
+  C:0891H         LINE#         11
+  C:0894H         LINE#         12
+  C:0898H         LINE#         13
+  C:0898H         LINE#         14
+  C:08A0H         LINE#         15
+  C:08A3H         LINE#         16
+  C:08A8H         LINE#         17
+  C:08A8H         LINE#         18
+  C:08B0H         LINE#         19
+  C:08B3H         LINE#         22
+  C:08C6H         LINE#         23
+  C:08D9H         LINE#         24
+  -------         ENDPROC       MAIN
+  -------         PROC          DELAY
+  -------         DO            
+  D:0082H         SYMBOL        i
+  -------         ENDDO         
+  C:08DAH         LINE#         25
+  C:08DAH         LINE#         26
+  C:08DAH         LINE#         28
+  C:08F3H         LINE#         29
+  -------         ENDPROC       DELAY
+  -------         ENDMOD        SEGMENT
+
+  -------         MODULE        ?C?SLCMP
+  C:08F4H         PUBLIC        ?C?SLCMP
+  -------         ENDMOD        ?C?SLCMP
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 007AH BYTE ( 5%) *
+******************************************************************************
+
+Program Size: data=24.0 xdata=0 code=283
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
