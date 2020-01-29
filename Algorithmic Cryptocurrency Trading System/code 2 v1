@@ -1,0 +1,66 @@
+# Importing the required Library Files
+import pandas as pd
+import numpy as np
+
+# Reading the data file as a data frame
+bitcoins_data = pd.read_csv('../input/Data/btc.txt')
+
+# Converting the date column to date format
+bitcoins_data['Date'] = pd.to_datetime(bitcoins_data['Date'])
+bitcoins_data = bitcoins_data.set_index('Date')
+
+# Printing a summary of the data
+print(bitcoins_data.index.min(), bitcoins_data.index.max())
+bitcoins_data.head()
+
+
+class Environment1:
+
+    def __init__(self, bitcoins_data, past_t=90):
+        self.bitcoins_data = bitcoins_data
+        self.past_t = past_t
+        self.reset()
+
+    def reset(self):
+        self.t = 0
+        self.status = False
+        self.prof = 0
+        self.pos = []
+        self.pos_val = 0
+        self.past = [0 for _ in range(self.past_t)]
+        return [self.pos_val] + self.past  # obs
+
+    # Initializing the step function
+    def step(self, act):
+        rewards = 0
+
+        # act = 0: stay, 1: buy, 2: sell
+        if (act == 1):
+        # Updating the values if the action is buy
+            self.pos.append(self.bitcoins_data.iloc[self.t, :]['Close'])
+        elif (act == 2):  # sell
+            if len(self.pos) == 0:
+                rewards = -1
+            else:
+                prof = 0
+                for p in self.pos:
+                    prof = prof + (self.bitcoins_data.iloc[self.t, :]['Close'] - p)
+                rewards = rewards + prof
+                self.prof = self.prof + prof
+                self.pos = []
+        # The default action is stay
+        # set next time
+        self.t = self.t + 1
+        self.pos_val = 0
+        for p in self.pos:
+            self.pos_val = self.pos_val + (self.bitcoins_data.iloc[self.t, :]['Close'] - p)
+        self.past.pop(0)
+        self.past.append(self.bitcoins_data.iloc[self.t, :]['Close'] - self.bitcoins_data.iloc[(self.t - 1), :]['Close'])
+
+        # clipping rewards
+        if (rewards > 0):
+            rewards = 1
+        elif (rewards < 0):
+            rewards = -1
+
+        return ([self.pos_val] + self.past, rewards, self.status)

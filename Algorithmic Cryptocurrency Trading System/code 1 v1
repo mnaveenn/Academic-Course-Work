@@ -1,0 +1,145 @@
+# Including the necessary Library Files 
+import chainer
+import chainer.functions as F
+import chainer.links as L
+import copy
+import numpy as np
+import time
+from plotly import tools
+from plotly.graph_objs import *
+from plotly.offline import init_notebook_mode, iplot, iplot_mpl
+import tensorflow as tf
+import pandas as pd
+import matplotlib
+import seaborn as sns
+
+# A function to train the deep Q learning model
+def train_deep_Q_network(env):
+    class Q_Network(chainer.Chain):
+
+        def __init__(self, ipt_size, init_size, opt_size):
+            super(Q_Network, self).__init__(
+                fc1=L.Linear(ipt_size, init_size),
+                fc2=L.Linear(init_size, init_size),
+                fc3=L.Linear(init_size, opt_size)
+            )
+
+        def __call__(self, x):
+            h = F.relu(self.fc1(x))
+            h = F.relu(self.fc2(h))
+            y = self.fc3(h)
+            return y
+
+        def reset(self):
+            self.zerograds()
+
+    Q = Q_Network(ipt_size=env.history_t, init_size=100, opt_size=3)
+    Q_ast = copy.deepcopy(Q)
+    optimizer = chainer.optimizers.Adam()
+    optimizer.setup(Q)
+
+    #Intializing the variables 
+    number_of_epochs = 50 # The number of epochs to be tried is set to be 50
+    max_step_size = len(env.data) - 1
+    mem_size = 200
+    batch_size = 20 # Fixing a batch size of 20 per cycle
+    eps = 1.0 # The value of epsilon is set to 1
+    eps_reduce = 1e-3 # The epsilon reduce size
+    eps_min = 0.1 # The min value to which epsilon can reduce to
+    start_reduce_eps = 200
+    train_frequency = 10
+    update_q_frequency = 20
+    gamma_value = 0.97
+    frequency_log = 5
+
+    mem = []
+    no_of_steps = 0 # Initializing an iterator for the number of steps
+    net_rewards = [] # A list to store the net rewards and losses for the actions of our agent
+    net_losses = []
+
+    start = time.time()
+    for epoch in range(number_of_epochs):
+
+        p_observation = env.reset()
+        step = 0
+        status = False # A status variable to determine when to end the training
+        net_reward = 0
+        net_loss = 0
+
+        while not status and step < max_step_size:
+
+            # select action
+            val = np.random.randint(3) # generating the initial random number for comparing with epsilon
+            if (np.random.rand() > eps):
+                val = Q(np.array(p_observation, dtype=np.float32).reshape(1, -1))
+                val = np.argmax(val.data)
+
+            # action
+            observation, reward, status = env.step(val)
+
+            # add it to memory
+            mem.append((p_observation, val, reward, observation, status))
+            if (len(mem) > mem_size):
+                mem.pop(0)
+
+            # train or update the value of q
+            if (len(mem) == mem_size):
+                if (no_of_steps % train_frequency == 0):
+                    shuffled_mem = np.random.permutation(mem)
+                    mem_idx = range(len(shuffled_mem))
+                    for i in mem_idx[::batch_size]:
+                        batch = np.array(shuffled_mem[i:i + batch_size])
+                        b_p_observation = np.array(batch[:, 0].tolist(),dtype=np.float32).reshape(batch_size,-1)
+                        b_val = np.array(batch[:, 1].tolist(), dtype=np.int32)
+                        b_reward = np.array(batch[:, 2].tolist(),dtype=np.int32)
+                        b_observation = np.array(batch[:, 3].tolist(),dtype=np.float32).reshape(batch_size,-1)
+                        b_status = np.array(batch[:, 4].tolist(), dtype=np.bool)
+
+                        q = Q(b_p_observation)
+                        maxq = np.max(Q_ast(b_observation).data, axis=1)
+                        final_ans = copy.deepcopy(q.data)
+                        for j in range(batch_size):
+                            final_ans[j, b_val[j]] = b_reward[j] + gamma_value * maxq[j] * (not b_status[j])
+                        Q.reset()
+                        loss = F.mean_squared_error(q, final_ans) # Computing the mean squared erroe loss
+                        net_loss = net_loss + loss.data
+                        loss.backward() 
+                        optimizer.update() # Updating the optimizer
+
+                if (no_of_steps % update_q_frequency == 0):
+                    Q_ast = copy.deepcopy(Q)
+
+            # eps
+            if (eps > eps_min and no_of_steps > start_reduce_eps):
+                eps = eps - eps_reduce # Updating the epsilon value
+
+            # next step
+            net_reward = net_reward + reward # Incrementing the reward
+            p_observation = observation # storing the observation in past observation
+            step = step + 1 # Incrementing the step counter
+            no_of_steps = no_of_steps + 1 # Incrementing the number of steps taken
+
+        net_rewards.append(net_reward)
+        net_losses.append(net_loss)
+        
+        # Computing the rewards and losses in log scale
+        if ((epoch + 1) % frequency_log == 0):
+            reward_log = sum(net_rewards[((epoch + 1) - frequency_log):]) / frequency_log
+            loss_log = sum(net_losses[((epoch + 1) - frequency_log):]) / frequency_log
+            elapsed_time = time.time() - start
+            print('\t'.join(map(str,[epoch + 1, eps, no_of_steps, reward_log,loss_log, elapsed_time])))
+            start = time.time()
+
+    return (Q, net_losses, net_rewards)
+
+# Function to plot the results
+def plot_results(net_losses, net_rewards):
+    figure = tools.make_subplots(rows=1, cols=2, subplot_titles=('loss', 'reward'), print_grid=False)
+    figure.append_trace(Scatter(y=net_losses, mode='lines', line=dict(color='red')), 1, 1)
+    figure.append_trace(Scatter(y=net_rewards, mode='lines', line=dict(color='black')), 1, 2)
+    figure['layout']['xaxis1'].update(title='epoch')
+    figure['layout']['xaxis2'].update(title='epoch')
+    figure['layout'].update(height=400, width=900, showlegend=False)
+    iplot(figure)
+
+Q, net_losses, net_rewards = train_deep_Q_network(Environment1(train))
