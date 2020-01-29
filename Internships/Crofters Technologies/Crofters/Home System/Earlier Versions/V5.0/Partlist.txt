@@ -1,0 +1,25 @@
+Partlist
+
+Exported from V4.0.brd at 28-06-2016 11:30:20 AM
+
+EAGLE Version 6.1.0 Copyright (c) 1988-2012 CadSoft
+
+Assembly variant: 
+
+Part     Value          Package  Library        Position (mil)        Orientation
+
+IC1      ULN2003AN      DIL16    uln-udn        (4010 1014)           R90
+K1       ZF112          ZF112    relay          (601 1098)            R270
+K2       ZF112          ZF112    relay          (1323 1080)           R270
+K3       ZF112          ZF112    relay          (2089 1075)           R270
+K4       ZF112          ZF112    relay          (2822 1067)           R270
+Q1       IRF540         TO220    transistor-fet (5510 1964)           R270
+Q2       IRF540         TO220    transistor-fet (3860 1964)           R90
+SV1      VCC            MA03-1   con-lstb       (5737 472)            R270
+SV2      GND            MA04-1   con-lstb       (5736 913)            R270
+U$1      WEMOS          WEMOS    Wemos          (4510 464)            R0
+X1                      AK300/3  con-ptr500     (2814 335)            R180
+X2                      AK300/3  con-ptr500     (2205 330)            R180
+X3                      AK300/3  con-ptr500     (744 327)             R180
+X4                      AK300/3  con-ptr500     (1343 327)            R180
+X5                      AK300/3  con-ptr500     (4760 2014)           R180

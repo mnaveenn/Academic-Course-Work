@@ -1,0 +1,19 @@
+K2- D2
+K3- D3
+K4- D4
+
+GND D1 D7
+
+GND 
+Echo [D0] 
+Trigger [D5] 
+VCC
+
+VCC 
+Data [D6] 
+GND
+
+-
++ [D8]
+-
++
