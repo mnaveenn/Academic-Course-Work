@@ -1,0 +1,53 @@
+corr<-function(directory,threshold=0)
+{
+        #old.dir<-getwd()
+        #my.dir<-c(old.dir,directory)
+        #new.dir<-paste(my.dir, collapse="/")
+        #setwd(new.dir)
+        #getwd()
+        id=1:332
+        k<-length(id)
+        n<-1:k
+        m<-vector("numeric",length=0)
+        k<-1
+        l<-1
+        for(i in id)
+        {
+                if(i<10)
+                {
+                        i1<-c("00",as.character(i),".csv")
+                }
+                else if(i<100 & i>=10)
+                {
+                        i1<-c("0",as.character(i),".csv")
+                }
+                else
+                {
+                        i1<-c(as.character(i),".csv")
+                }
+                myfile<-paste(i1,collapse="")
+                con<-file(myfile,"r")
+                data<-read.csv(con)
+                close(con)
+                bad<-(is.na(data[,2])|is.na(data[,3]))
+                data1<-data[!bad,]
+                n[k]<-nrow(data1)
+                if(n[k]>=threshold)
+                {
+                        if(l==1)
+                        {
+                                m<-cor(data1[,2],data1[,3])
+                                l<-l+1
+                        }
+                        else
+                        {
+                                m<-c(m,(cor(data1[,2],data1[,3])))
+                        }
+                }
+                k<-k+1
+        }
+        bad1<-is.na(m)
+        m1<-m[!bad1]
+        m1
+        m
+}
