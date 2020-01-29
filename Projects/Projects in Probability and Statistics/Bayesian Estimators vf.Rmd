@@ -1,0 +1,138 @@
+---
+title: "Bayesian Estimators Assignment"
+author: "Naveen Narayanan Meyyappan"
+date: "09/12/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Bayesian Estimators
+
+In estimation theory and decision theory, a Bayes estimator or a Bayes action is an estimator or decision rule that minimizes the posterior expected value of a loss function (i.e., the posterior expected loss). Equivalently, it maximizes the posterior expectation of a utility function. An alternative way of formulating an estimator within Bayesian statistics is maximum a posteriori estimation.
+
+
+## Question
+
+Construct Bayesian estimates using the conjugate priors for each of the method of moments estimates
+Add it to the same program
+10 points extra credit if you create a Bayesian calculation for the uniform parameters using MCMC and the bivariate normal distribution as a prior.
+
+
+## Answer
+
+In Bayesian probability theory, if the posterior distributions p(θ | x) are in the same probability distribution family as the prior probability distribution p(θ), the prior and posterior are then called conjugate distributions, and the prior is called a conjugate prior for the likelihood function.
+
+Conjugate families for samples from various standard distribution 
+
+Suppose that X1,...,Xn is a random sample from a Poisson distribution with an unknown value of the mean W. Suppose also that the prior distribution of W is a Gamma distribution with parameters alpha and beta such alpha>0 and beta>0. Then the posterior distribution of W when Xi=xi(i=1,...,n) is a Gamma distribution with parameters alpha + sum(xi) and beta + n
+
+```{r}
+posterior_poisson<-function(n,alpha,beta)
+{
+        priordist=rgamma(n,alpha,beta)# Generating the prior distribution
+        mu=mean(priordist)
+        variance=var(priordist)
+        beta_hat=mu/variance
+        alpha_hat=mu*beta_hat# Calculating alpha_hat and Beta _hat using the method of moments estimaators
+        lambda=alpha_hat*beta_hat# calculating the lambda parameter for Poisson distribution
+        data=rpois(n,lambda)
+        alpha_new=alpha+sum(data)
+        beta_new=beta+n # Generating the parameters alpha and beta for the posterior Gamma distribution
+        return(list(prior_distribution="Gamma", posterior_distribution="Gamma",alpha_new=alpha_new,beta_new=beta_new))
+}
+posterior_poisson(100,1,1)
+```
+
+
+Suppose that X1,...,Xn is a random sample from a Negative Binomial distribution with parameters r and W, where r has a specific value (r>0) and the value of W is unknown. Suppose also that the prior distribution of W is a Beta distribution with parameters alpha and beta such that alpha>0 and beta>0. Then the posterior distribution of W when Xi=xi(i=1,...,n) is a Beta distribution with parameters alpha + rn and beta + sum(xi)
+
+```{r}
+posterior_negativebinomial<-function(n,r,alpha,beta)
+{
+        priordist=rbeta(n,alpha,beta) # generating the prior beta distribution with the given alpha and beta values
+        mu=mean(priordist)
+        variance=var(priordist)
+        alpha_hat = (((mu^2)-(mu^3)-(variance*mu))/variance)
+        beta_hat = (alpha_hat*(1-mu))/mu # Identifying alpha_hat and beta_hat using Method of moments estimators
+        w=(alpha_hat/(alpha_hat+beta_hat))
+        data=rnbinom(n,r,w) # Calculating the parameter W for the distribution
+        alpha_new=alpha_hat+r*n
+        beta_new=beta_hat+sum(data) # Generating the posterior distribution
+        return(list(prior_distribution="Beta",posterior_distribution="Beta",alpha_new=alpha_new,beta_new=beta_new))
+}
+posterior_negativebinomial(100,0.5,1,2)
+```
+
+Suppose that X1,...,Xn is a random sample from an Exponential distribution with an unknown value of the parameter W. Suppose also that the prior distribution of W is a Gamma distribution with parameters alpha and beta such alpha>0 and beta>0. Then the posterior distribution of W when Xi=xi(i=1,...,n) is a Gamma distribution with parametera alpha + rn and beta + sum(xi)
+
+```{r}
+posterior_exponential<-function(n,alpha,beta)
+{
+        priordist=rgamma(n,alpha,beta)
+        mu=mean(priordist)
+        variance=var(priordist)
+        beta_hat=mu/variance
+        alpha_hat=mu*beta_hat
+        lambda=alpha_hat*beta_hat
+        data=rexp(n,lambda)
+        alpha_new=alpha+n
+        beta_new=beta+sum(data)
+        return(list(prior_distribution="Gamma", posterior_distribution="Gamma", alpha_new=alpha_new, beta_new=beta_new))
+}
+posterior_exponential(100,0.1,0.1)
+```
+
+The Beta distribution is the conjugate prior for binomial observations. So if ones beliefsabout a probability for a binomial experiments can be represented by a Beta distribution, then the conditional probability distribution for P after the experiment is also a Beta distribution
+
+```{r}
+posterior_binomial<-function(n,alpha,beta,size)
+{
+        priordist=rbeta(n,alpha,beta) # generating the prior distribution
+        mu=mean(priordist)
+        variance=var(priordist)
+        alpha_hat = (((mu^2)-(mu^3)-(variance*mu))/variance)
+        beta_hat = (alpha_hat*(1-mu))/mu # Calculating alpha and beta using method of moments
+        w=(alpha_hat/(alpha_hat+beta_hat))
+        data=rbinom(n,size,w)
+        alpha_new=alpha_hat+n # Computing the paramters for posterior distribution
+        beta_new=beta_hat+sum(data)
+        return(list(prior_distribution="Beta",posterior_distribution="Beta",alpha_new=alpha_new,beta_new=beta_new))
+}
+posterior_binomial(100,2,3,10)
+```
+
+Suppose that X1,...,Xn is a random sample from an Normal distribution with an unknown value of the mean M and an unknown value of precision R. Suppose also that the prior joint distribution of M and R is as follows: The conditional distribution of M when R=r (r>0) is a normal distribution with mean mu and precision tau such that -infinity<mu<+infinity and r>0,and the marginal distribution of R is a Gamma distribution with parameters alpha and beta such alpha>0 and beta>0. Then the posterior joint distribution of M and R when Xi=xi(i=1,...,n) is as follows with mean mu'and precision (r+n)r, and the marginal distribution of R is a Gamma distribution with parameters alpha + n/2 and beta'
+
+
+```{r}
+posterior_normal_mu_unknown_precision_unknown<-function(n,mu,tau,alpha,beta)
+{
+        priordist=rnorm(n,mu,1/tau)#prior dist 1 is for mean M
+        mu_hat=mean(priordist)
+        sigma_hat=sd(priordist)
+        tau_hat=1/sigma_hat # Calculating the parameters using method of moments
+        priordist2=rgamma(n,alpha,beta) #prior dist 2 for precision r
+        mu_g=mean(priordist2)
+        variance_g=var(priordist2)
+        beta_hat=mu_g/variance_g
+        alpha_hat=mu_g*beta_hat # Calculating the parameters using method of moments
+        r=alpha_hat/(alpha_hat+beta_hat)
+        data=rnorm(n,mu_hat,1/r) # Generating the distribution
+        mu_new=((tau_hat*mu_hat) + (sum(data)))/(tau_hat + n)
+        precision_new=(tau_hat+n)*r
+        alpha_new=alpha_hat+(n/2) #Identifying the parameters for the posterior distributions
+        beta_new=beta_hat+((0.5*variance_g+tau_hat*(mu_g-mu_hat))/(2*tau_hat*n))
+        return(list(prior_distribution_of_M="Normal",posterior_distribution_of_M="Normal",mu=mu_new, precision=precision_new, prior_distibution_R="Gamma",posterior_distribution_R="Gamma",alpha_new=alpha_new,beta_new=beta_new))
+}
+posterior_normal_mu_unknown_precision_unknown(100,1,1,1,1)
+```
+
+
+
+## References
+1. https://en.wikipedia.org/wiki/Bayes_estimator
+2. https://en.wikipedia.org/wiki/Conjugate_prior
+3. https://www.johndcook.com/blog/conjugate_prior_diagram/

@@ -1,0 +1,64 @@
+---
+title: "Assignment 8 - False Discovery Rate"
+author: "Naveen Narayanan Meyyappan"
+date: "22/11/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## False Discovery Rate
+
+The false discovery rate (FDR) is a method of conceptualizing the rate of type I errors in null hypothesis testing when conducting multiple comparisons. FDR-controlling procedures are designed to control the expected proportion of "discoveries" (rejected null hypotheses) that are false (incorrect rejections).The FDR value of 0.05 means that 5% of declared positive results are truly negative. If many p values fall into the range where the null hypothesis of no association should be rejected, the FDR is much less conservative than Bonferroni false positive rate.
+
+## Algorithm/Pseudo Code
+
+1.Sort P values
+
+2.Count tests (m)
+
+3.Set Q
+
+4.Plot sorted Pvalues(smallest to largest) vs line Q*c(1:m)/m
+
+5.(If not independent, Q*c(1:m)/(m*(sum(1/i)i=1,…m)))
+
+6.Find P* =largest P value <line
+
+7.Every P<=P* is “interesting”
+
+Let us try to perform the false discovery rate on an input test vector v1<-c(1e-5*runif(100),runif(900)) and with Q=0.05. We need the list of hypothesis which are interesting by number in the original unsorted list of p values.
+
+```{r}
+v1=c(1e-5*runif(100),runif(900)) # Using the input vector
+Q=0.05 # Setting the Q value
+o1<-order(v1) # Generating the order for the input test vector
+pvec<-v1[o1] # Sorting the vector and storing the sorted array in pvec
+m<-length(v1) # Obtaining the number of hypothesis by calculating the length of test vector
+qline<-Q*c(1:m)/m # Generating Q line for given length
+plot(c(c(1:m),c(1:m)),c(qline,pvec),type ="n",xlab ="ordering",ylab="pval",main = "False Discovery Rate") # Plotting the sorted p values with Q Line. Here we are setting up the axes
+lines(c(1:m),qline) # Adding Q line
+points(c(1:m),pvec) # Adding the sorted test vector points
+dv<-pvec-qline 
+I1<-(dv<0)
+pstar<-max(pvec[I1]) # Calculating p*
+I2<-pvec<=pstar # Every p that is less than p* is interesting
+points(c(1:m)[I2],pvec[I2],col="red") # Marking those points with red
+o1[I2] # This gives the pvalues that are intersting fro the ordered list. In other words it gives the index of the v1 vector for which the p values are interesting
+v1[o1[I2]]# These are the p values that are interesting from the original unsorted test vector
+```
+
+
+## References
+
+1. https://en.wikipedia.org/wiki/False_discovery_rate
+2. https://www.sciencedirect.com/topics/neuroscience/false-discovery-rate
+
+
+
+
+
+
+

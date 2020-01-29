@@ -1,0 +1,161 @@
+---
+title: "Assignment 3 Method of Moments"
+author: "Naveen Narayanan Meyyappan"
+date: "24/10/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Method of Moments
+
+Method of moments is used to identify parametric estimators of a given distribution. 
+The jth moment of a distribution is given by (E(X^j)) where X is the disribution vector.
+
+Mean = E(X)     
+Variance = E(X^2) - (E(X)^2)
+
+Let us define a function called method of moments, that will help us idenify the parameters of various theoretical distributions.
+
+The following function identifies the parameters for the following distributions
+
+1. Normal Distribution - returns mu and sigma
+2. Binomial Distribution - returns n and p
+3. Poisson Distribution - returns lambda (rate)
+4. Uniform Distribution - returns a and b
+5. Exponential Distribution - returns beta (rate)
+6. Beta Distribution - returns alpha(shape 1) and beta (shape 2)
+7. Gamma Distribution - returns alpha(shape) and beta(scale)
+8. T Distribution - returns v(degrees of freedom)
+9. Chisquare Distribution - returns p(degrees of freedom)
+  
+The function given below takes raw data and type of distribution as the input and the parameters of the given distribution will be the output
+
+```{r}
+methodofmoments<-function(x,statdist)
+{
+        # The function uses if statements to identify the type of distribution. Then the mean and standard deviation of the raw data are calculated. Using the mean and standard deviation, we calculate the parameters of the given distribution
+        if (statdist=="rnorm") #Normal Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                sigma=sqrt(variance)
+                return(list(mu=mu,sigma=sigma))
+        }
+        if (statdist=="rbinom") #Binomial Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                q=variance/mu
+                p=1-q
+                n=mu/p
+                return(list(n=n,p=p))
+        }
+        if (statdist=="rpois") # Poisson Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                lambda=mu
+                return(list(lambda=lambda))
+        }
+        if (statdist=="runif") #Uniform Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                b=(sqrt(12*variance)/2)+mu
+                a=(2*mu)-b
+                return(list(a=a,b=b))
+        }
+        if (statdist=="rexp") #Exponential Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                beta=1/mu
+                return(list(beta=beta))
+        }
+        if (statdist=="rgamma") # Gamma Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                beta=mu/variance
+                alpha=mu*beta
+                return(list(alpha=alpha,beta=beta))
+        }
+        if (statdist=="rt") # T Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                v=(2*variance)/(variance-1)
+                return(list(v=v))
+        }
+        if (statdist=="rchisq") # Chisquare Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                p=mu
+                return(list(p=p))
+        }
+        if (statdist=="rbeta") # Beta Distribution
+        {
+                mu=mean(x)
+                variance=var(x)
+                alpha = (((mu^2)-(mu^3)-(variance*mu))/variance)
+                beta = (alpha*(1-mu))/mu
+                return(list(alpha=alpha, beta=beta))
+        }
+        if (statdist=="point mass at alpha")
+        {
+                mu=mean(x)
+                return(list(alpha = mu))
+        }
+}
+```
+
+Now let us check the working of the above funtion by passing different distributions.
+
+```{r}
+#Binomial Distribution
+x = rbinom(1000,2,0.5)
+methodofmoments(x,"rbinom")
+
+#Poisson Distribution
+x = rpois(1000,0.7)
+methodofmoments(x,"rpois")
+
+#Uniform Distribution
+x = runif(1000,10,50)
+methodofmoments(x,"runif")
+
+#Normal Distribution
+x = rnorm(1000,2,3)
+methodofmoments(x,"rnorm")
+
+#Exponential Distribution
+x = rexp(1000,2)
+methodofmoments(x,"rexp")
+
+#Gamma Distribution
+x = rgamma(1000,2,3)
+methodofmoments(x,"rgamma")
+
+#Beta Distribution
+x = rbeta(1000,2,3)
+methodofmoments(x,"rbeta")
+
+#T Distribution
+x = rt(1000,3)
+methodofmoments(x,"rt")
+
+#Chisquare Distribution
+x = rchisq(1000,3)
+methodofmoments(x,"rchisq")
+
+```
+
+### References  
+
+1. "All of statistics: A Concise course in statistical inference" by Larry Wasserman, Springer.
+
+

@@ -1,0 +1,96 @@
+---
+title: "James Stein Quiz"
+author: "Naveen Narayanan Meyyappan"
+date: "04/12/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Question
+
+Compare the risk of the James stein estimator vs the MLE for k =1 to 100 for random thetai, plot it, use 1000 samples at each k to estimate risk., use N(thetai, 1) for the samples. (rnorm(k))
+
+## Answer
+
+```{include=FALSE}
+library(ggplot2)
+set.seed(1)
+```
+
+The James–Stein estimator is a biased estimator of the mean of Gaussian random vectors.
+Let us define a function to compute both the James Stein Estimator and MLE estimator. Then we will use 1000 samples to determine the risk at each k(k ranges from 1 to 100). James-Stein estimate is just the sample mean shrunk towards zero.
+
+```{r}
+signcheck<-function(x){ # this function is used to check the sign of the input. Returns zero if the input is negative
+        if(x>0){
+                return(x)
+        }
+        else{
+                return(0)
+        }
+}
+
+computejsrisk<-function(X,mu,n,k){
+        theta_mle=colMeans(X) # theta for mle is the mean of random normal multivariate distribution
+        theta_mle_norm = sqrt(sum(theta_mle*theta_mle)) # We will normalise the theta_mle vector
+        theta_js = (signcheck(1-((k-2)/(n*(theta_mle_norm*theta_mle_norm))))*theta_mle) # Computing the James Stein Estimator
+        risk_js = sum((mu - theta_js)*(mu - theta_js)) # Calculating the risk for the James Stein Estimator
+        return(risk_js)
+}
+computemlerisk<-function(X,mu){
+        theta_mle=colMeans(X) # theta for mle is the mean of random normal multivariate distribution
+        risk_mle = sum((mu-theta_mle)^2) # Calculating the mle_risk
+        return(risk_mle)
+}
+```
+
+The above two functions are used to compute both the James Stein Risk and MLE Risk.
+
+Now let us simulate the above two functions for n=1000 and k=1:100.
+
+```{r}
+n = 1000 # For 1000 samples
+k=100 # k varies from 1 to 100
+js_risk = {}
+mle_risk = {}
+for (i in 1:100){
+        mu=rep(0,i) # Creating a vector that denotes the ean of the normal distribution which is now set as zero
+        val=rnorm((i*n),0,1) # Creating multivariate normal distribution of size n x k
+        X=matrix(val,nrow=n,ncol=i) # Converting the vector to a matrix
+        mle_val=computemlerisk(X,mu) # Compute mle_risk
+        js_val = computejsrisk(X,mu,n,i) # Compute js_risk
+        mle_risk=c(mle_risk,mle_val) # Append the results for each k
+        js_risk=c(js_risk,js_val)
+}
+```
+
+The vector mle_risk and js_risk are used to store the result. Now we will plot the result to compare the James Stein Estimator and MLE Estimator.
+
+```{r}
+library(ggplot2)
+xaxisvalues=1:100
+result=data.frame(xaxisvalues,mle_risk,js_risk)
+ggplot() + geom_line(data = result, aes(x = result$xaxisvalues, y = result$mle_risk, colour = "MLE Risk")) + geom_line(data = result, aes(x = result$xaxisvalues, y = result$js_risk, color = "James Stein Risk")) + labs(title="JS Estimator Risk and MLE Estimator Risk", x="K -->", y="Risk -->") +  theme(plot.title = element_text(hjust = 0.5)) + scale_colour_manual("", breaks = c("MLE Risk", "James Stein Risk"),values = c("red", "green", "blue"))
+```
+
+## References
+1. https://en.wikipedia.org/wiki/James%E2%80%93Stein_estimator
+2. https://www.naftaliharris.com/blog/steinviz/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
